@@ -1,4 +1,13 @@
 class CoopSerializer < ActiveModel::Serializer
-  attributes :id, :name, :description
-  has_many :available_chickens
+  include Rails.application.routes.url_helpers
+
+  attributes :id, :name, :description, :photo, :available_count
+
+  def photo
+    if object.photo.attached?
+      "http://localhost:3000" + rails_blob_path(object.photo, only_path: true)
+    else
+      "https://www.mypetchicken.com/images/product_images/Popup/White-Silkie-2190-L.jpg"
+    end
+  end
 end
